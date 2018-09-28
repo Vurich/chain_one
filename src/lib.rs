@@ -48,6 +48,15 @@ impl<I> ExactSizeIterator for ChainOne<I> where I: ExactSizeIterator {}
 
 impl<I> FusedIterator for ChainOne<I> where I: FusedIterator {}
 
+impl<I> DoubleEndedIterator for ChainOne<I>
+where
+    I: DoubleEndedIterator,
+{
+    fn next_back(&mut self) -> Option<Self::Item> {
+        self.elem.take().or_else(|| self.iter.next_back())
+    }
+}
+
 #[macro_export]
 macro_rules! iter {
     () => {
@@ -63,10 +72,18 @@ macro_rules! iter {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn it_works() {
+    fn iter() {
         assert_eq!(
             iter![1, 2, 3, 4, 5].collect::<Vec<_>>(),
             vec![1, 2, 3, 4, 5]
+        );
+    }
+
+    #[test]
+    fn reversed() {
+        assert_eq!(
+            iter![1, 2, 3, 4, 5].rev().collect::<Vec<_>>(),
+            vec![5, 4, 3, 2, 1]
         );
     }
 }
