@@ -1,8 +1,9 @@
 [package]
-name = "chain_one"
+name = "chain-one"
 version = "0.1.0"
 authors = ["Jef <jackefransham@gmail.com>"]
 license = "Unlicense"
 description = "A way to add a single element to an iterator while preserving `ExactSizeIterator`"
+readme = "README.md"
 
 [dependencies]
